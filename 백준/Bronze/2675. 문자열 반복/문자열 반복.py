@@ -11,5 +11,4 @@ for i in range(cnt):
     for k in range(num):
       result.append(j)
 
-  result_str = ''.join(s for s in result)
   print(''.join(s for s in result))
