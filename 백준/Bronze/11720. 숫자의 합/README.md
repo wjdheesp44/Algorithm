@@ -1,4 +1,4 @@
-# [Bronze II] 숫자의 합 - 11720 
+# [Bronze IV] 숫자의 합 - 11720 
 
 [문제 링크](https://www.acmicpc.net/problem/11720) 
 
@@ -8,7 +8,7 @@
 
 ### 분류
 
-사칙연산(arithmetic), 수학(math), 문자열(string)
+수학, 구현, 문자열
 
 ### 문제 설명
 
