@@ -1,4 +1,4 @@
-# [Bronze III] N 찍기 - 2741 
+# [Bronze V] N 찍기 - 2741 
 
 [문제 링크](https://www.acmicpc.net/problem/2741) 
 
@@ -8,7 +8,7 @@
 
 ### 분류
 
-구현(implementation)
+구현
 
 ### 문제 설명
 
