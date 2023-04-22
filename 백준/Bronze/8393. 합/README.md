@@ -1,14 +1,14 @@
-# [Bronze III] 합 - 8393 
+# [Bronze V] 합 - 8393 
 
 [문제 링크](https://www.acmicpc.net/problem/8393) 
 
 ### 성능 요약
 
-메모리: 30840 KB, 시간: 68 ms
+메모리: 31388 KB, 시간: 40 ms
 
 ### 분류
 
-구현(implementation), 수학(math)
+구현, 수학
 
 ### 문제 설명
 
