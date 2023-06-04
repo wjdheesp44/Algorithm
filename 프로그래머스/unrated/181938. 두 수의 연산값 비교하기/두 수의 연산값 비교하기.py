@@ -1,9 +1,6 @@
 def solution(a, b):
-    strA = str(a)
-    strB = str(b)
-    answer = 0
-    if int(strA+strB) >= 2*a*b:
-        return int(strA+strB)
+    if int(str(a)+str(b)) >= 2*a*b:
+        return int(str(a)+str(b))
     else:
         return 2*a*b
     
