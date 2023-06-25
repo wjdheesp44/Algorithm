@@ -1,8 +1,7 @@
 def solution(num_list):
-    last = len(num_list)-1
-    lasttwo = last-1
-    if num_list[last] > num_list[lasttwo]:
-        num_list.append(num_list[last]-num_list[lasttwo])
-    else: 
-        num_list.append(num_list[last]*2)
+    n1, n2 = num_list[-1], num_list[-2] 
+    if n1 > n2:
+        num_list.append(n1-n2)
+    else:
+        num_list.append(n1*2)
     return num_list
