@@ -1,4 +1,11 @@
-import collections
 def solution(participant, completion):
-    num = collections.Counter(participant) - collections.Counter(completion)
-    return list(num.keys())[0]
+    hash = {}
+    for num in participant:
+        hash[num] = hash.setdefault(num, 0) + 1
+
+    for num in completion:
+        hash[num] = hash.setdefault(num, 0) - 1
+
+    for num in participant:
+        if hash.setdefault(num, 0) != 0:
+            return num
