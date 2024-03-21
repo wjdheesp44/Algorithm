@@ -1,58 +1,64 @@
-import sys
 from collections import Counter
 
-input = sys.stdin.readline
+def check_k(A):
+    global r, c, cnt
 
-# 입력
-r, c, k = map(int, input().split())
-
-A = []
-for _ in range(3):
-    A.append(list(map(int, input().split())))
-
-def rc():
-    max_len = 0
-    for j in range(len(A)):
-        a = [i for i in A[j] if i!= 0] # 정렬할 때 0은 무시
-        a = Counter(a).most_common() # 수의 등장 횟수를 기준으로 정렬
-        a.sort(key = lambda x: (x[1], x[0])) # 오름차순으로 정렬
-
-        A[j] = [] # 새로운 배열을 선언하지 않고 A 배열을 재활용
+    for ans in range(101):
+        row = len(A)
+        col = len(A[0])
         
-        # 튜플로 이루어진 a를 1차원 배열로 만듦
-        for key, value in a:
-            A[j].append(key)
-            A[j].append(value)
-        
-        # 길이는 최대 (수의 개수) * 2만큼 늘어날 수 있음
-        if max_len < len(a) * 2:
-            max_len = len(a) * 2
+        if 0 <= r < row and 0 <= c < col and A[r][c] == k:
+            print(cnt)
+            return
+        else:
+            cnt += 1
+            if row >= col:
+                A = cal(A)
+            else: 
+                A = list(map(list, zip(*A)))
+                A = cal(A)
+                A = list(map(list, zip(*A)))
 
-    for j in range(len(A)):
-    	# 빈 칸은 0으로 채움
-        for k in range(max_len - len(A[j])):
-            A[j].append(0)
-        # 처음 100개만 고려
-        A[j] = A[j][:100]
+    else:                 
+        ans=-1
+    print(ans)
 
-for i in range(101):
-    try:
-        if A[r-1][c-1]==k:
-            print(i)
-            break
-    except:
-        pass
+
+def cal(A):   # 모든 행에 대해
+    global r, c
+
+    row = len(A)
+    col = len(A[0])
+
+    col_max = col
     
-    # 행 개수 < 열 개수 → C 연산
-    if len(A) < len(A[0]):
-    	# transponse하여 정렬하고 다시 transponse
-        A = list(zip(*A))
-        rc()
-        A = list(zip(*A))
-    # 행 개수 >= 열 개수 → R 연산
-    else:
-        rc()
+    temp1 = []
+    for i in range(row):
+        nH = Counter(A[i])
+        nH = sorted(nH.items(), key = lambda item: (item[1], item[0]))
 
-# 100초가 지나도 A[r][c] == k가 아니면 -1을 출력
-else:
-    print(-1)
+        temp2 = []
+        for j in range(len(nH)):
+            if nH[j][0] != 0:
+                temp2.append(nH[j][0])
+                temp2.append(nH[j][1])
+        temp1.append(temp2)
+
+        col_max = max(col_max, len(temp2))
+
+    A = [[0] * col_max for _ in range(row)]
+    for i in range(row):
+        for j in range(len(temp1[i])):
+            A[i][j] = temp1[i][j]
+        A[i] = A[i][:100]
+    
+    return A
+
+cnt = 0
+r, c, k = map(int, input().split())
+A = [list(map(int, input().split())) for _ in range(3)]
+
+r -= 1
+c -= 1
+
+check_k(A)
