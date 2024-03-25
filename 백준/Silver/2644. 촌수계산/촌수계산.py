@@ -1,34 +1,40 @@
-import sys
-from collections import deque
-input = sys.stdin.readline
+#입력값 받는 부분
+n=int(input())
+a,b=map(int,input().split())
+m=int(input())
 
-n = int(input())
-a, b = map(int, input().split())
-m = int(input())
+#기본 선언
+graph=[[] for _ in range(n+1)]  #노드의 번호와 배열 번호 통일시키기 위해서 n이 아닌 n+1 사용
+visited=[False for _ in range(n+1)]
+result=0
 
-graph = [[] for _ in range(n + 1)]
-for i in range(m):
-    x, y = map(int, input().split())
+
+for _ in range(m):
+    x,y=map(int, input().split())
     graph[x].append(y)
     graph[y].append(x)
 
-def bfs(graph, start):
-    visited = [0 for _ in range(n + 1)]
-    visited[start] = 0
 
-    q = deque()
-    q.append(start)
 
-    while q:
-        person = q.popleft()
-        if person == b:
-            return visited[person]
+def dfs(v,num):
+    global result
+    # num+=1
+    # print(visited)
+    # print(v, num)
+    # print()
+    visited[v]=True
+    if v==b:
+        result = num
+    
+    for i in graph[v]:
+        if not visited[i]:
+            num += 1
+            dfs(i,num)
+            num -= 1
 
-        for v in graph[person]:
+dfs(a,0)
 
-            if visited[v] == 0:
-                visited[v] = visited[person] + 1
-                q.append(v)
-    return -1
-
-print(bfs(graph, a))
+if result==0:
+    print(-1)
+else:
+    print(result)
