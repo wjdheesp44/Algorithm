@@ -47,7 +47,8 @@ for i in range(1, T + 1):
         if board[i][j] % 2 == 1:
             total += board[i][j]
 
-    print("#{0} {1}".format(i, total))
+    print("#{0}".format(i), end=' ')
+    print(total)
     
     '''
 
