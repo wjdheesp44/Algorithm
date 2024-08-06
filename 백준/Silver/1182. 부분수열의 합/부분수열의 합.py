@@ -2,15 +2,15 @@ import sys
 input = sys.stdin.readline
 
 def backtraking(v):
-    global cnt
+    global cnt, zeroCheck
     if v == N:
 
         total = 0
         for i in range(N):
             if ch[i] == 1:
                 total += graph[i]
-                lst.append(graph[i])
-        if total == S and len(lst) != 0:
+                zeroCheck = True
+        if total == S and zeroCheck:
             cnt += 1
         return
 
@@ -23,6 +23,6 @@ N, S = map(int, input().split())
 graph = list(map(int, input().split()))
 cnt = 0
 ch = [0] * N
-lst = []
+zeroCheck = False
 backtraking(0)
 print(cnt)
