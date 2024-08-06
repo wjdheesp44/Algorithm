@@ -1,30 +1,28 @@
 import sys
 input = sys.stdin.readline
 
-cnt = 0
-lst = []
-
-def dfs(v):
+def backtraking(v):
     global cnt
-    if v == n:
-        total = 0
-        for i in range(n):
-            if ch[i] == 1:
-                total += input_lst[i]
-                lst.append(input_lst[i])
+    if v == N:
 
-        if total == s and len(lst) != 0:
+        total = 0
+        for i in range(N):
+            if ch[i] == 1:
+                total += graph[i]
+                lst.append(graph[i])
+        if total == S and len(lst) != 0:
             cnt += 1
         return
-    
+
     ch[v] = 0
-    dfs(v + 1)
+    backtraking(v+1)
     ch[v] = 1
-    dfs(v + 1)
+    backtraking(v+1)
 
-n, s = map(int, input().split())
-input_lst = list(map(int, input().split()))
-ch = [0] * n
-
-dfs(0)
+N, S = map(int, input().split())
+graph = list(map(int, input().split()))
+cnt = 0
+ch = [0] * N
+lst = []
+backtraking(0)
 print(cnt)
