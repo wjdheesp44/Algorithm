@@ -1,41 +1,38 @@
 import sys
 from collections import deque
-
 input = sys.stdin.readline
 
-n = int(input())
-
-board = [list(map(int, input().strip())) for _ in range(n)]
-visited = [[0] * n for _ in range(n)]
-house_cnt = []
-cnt = 0
-
 def bfs(x, y):
-    h_cnt = 1
-    dx, dy = [-1, 0, 1, 0], [0, 1, 0, -1]
-    visited[x][y] = 1
     q = deque()
     q.append((x, y))
+    visited[x][y] = 1
+    cnt = 1
 
     while q:
         x, y = q.popleft()
         for i in range(4):
             nx, ny = x + dx[i], y + dy[i]
+            if 0 <= nx < N and 0 <= ny < N and not visited[nx][ny]:
+                if board[nx][ny]:
+                    q.append((nx, ny))
+                    visited[nx][ny] = 1
+                    cnt += 1
 
-            if 0 <= nx < n and 0 <= ny < n and board[nx][ny] == 1 and visited[nx][ny] == 0:
-                visited[nx][ny] = 1
-                h_cnt += 1
-                q.append((nx, ny))
-    return h_cnt
+    return cnt
 
-for i in range(n):
-    for j in range(n):
-        if board[i][j] == 1 and visited[i][j] == 0:
-            house_cnt.append(bfs(i, j))
-            cnt += 1
 
-house_cnt.sort()
-print(cnt)
+N = int(input())
+board = [list(map(int, input().strip())) for _ in range(N)]
+visited = [[0] * N for _ in range(N)]
+totalHouse = []
+dx, dy = [-1, 0, 1, 0], [0, 1, 0, -1]
 
-for i in house_cnt:
-    print(i)
+for i in range(N):
+    for j in range(N):
+        if board[i][j] and not visited[i][j]:
+            totalHouse.append(bfs(i, j))
+
+totalHouse.sort()
+print(len(totalHouse))
+for i in range(len(totalHouse)):
+    print(totalHouse[i])
