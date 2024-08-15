@@ -4,10 +4,11 @@ input = sys.stdin.readline
 N, M = map(int, input().split())
 
 lectures = list(map(int, input().split()))
-# print(lectures)
 lt, rt = max(lectures), sum(lectures)
+result = 0
 
 while lt <= rt:
+    lst = []
     mid = (lt + rt) // 2    # 블루레이 크기 제한
     total = 0
     cnt = 1 # 블루레이 개수 세기
@@ -17,10 +18,10 @@ while lt <= rt:
             cnt += 1
             total = 0
         total += n
-
-    if cnt <= M:
-        result = mid
-        rt = mid - 1
-    else:
+    if cnt > M:
         lt = mid + 1
+    elif cnt <= M:
+        rt = mid - 1
+        result = mid
+
 print(result)
