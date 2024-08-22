@@ -1,18 +1,18 @@
 import sys
-
 input = sys.stdin.readline
+
 n = int(input())
-arr = []
-ans = 0
-
-a = list(map(int,input().split()))
-b = list(map(int,input().split()))
-for i in range(n):
-    arr.append([a[i],b[i]])
-
-arr = sorted(arr, key = lambda x: [x[1]])
+H = list(map(int, input().split()))
+A = list(map(int, input().split()))
+total = []
+result = 0
 
 for i in range(n):
-    ans += arr[i][0] + (i * arr[i][1])
+    total.append([H[i], A[i]])
 
-print(ans)
+total.sort(key=lambda x : x[1])
+
+for i in range(n):
+    result += total[i][0] + total[i][1] * i
+
+print(result)
