@@ -1,12 +1,14 @@
 import sys
 input = sys.stdin.readline
 
-n, k = map(int, input().split())
-kids = list(map(int, input().split()))
+N, K = map(int, input().split())
 
-array = []
-for i in range(1, n):
-    array.append(kids[i] - kids[i-1])
+student = list(map(int,input().split()))
+team = N // K
+diff = []
 
-array.sort(reverse=True)
-print(sum(array[k-1:]))
+for i in range(1, N):
+    diff.append(student[i] - student[i-1])
+
+diff.sort()
+print(sum(diff[:N-K]))
