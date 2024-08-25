@@ -1,30 +1,55 @@
-def func(x, y):
-    global arr
-    dx = [0, 1, 0, -1]
-    dy = [1, 0, -1, 0]
-    tmp = 1
-    i = 0
-    while True:
-        if tmp == K:  # K번째 사람이면 멈추기
-            return x + 1, y + 1  # x,y가 1,1 부터 시작하므로
-        arr[y][x] = True  # 지나간 점 체크
-        nx = x + dx[i]
-        ny = y + dy[i]
-        if (0 <= nx < C and 0 <= ny < R):  # 다음 점이 범위안이고
-            if arr[ny][nx] != True:  # 지나간 점이 아니라면
-                x = nx  # 이동하기
-                y = ny
-                tmp += 1
-            else:  # 지나간 점이면 방향 바꾸기
-                i = (i + 1) % 4
-        else:  # 다음 점이 범위를 벗어나면 방향 바꾸기
-            i = (i + 1) % 4
+import sys
+input = sys.stdin.readline
 
-
-C, R = map(int, input().split())
+dx, dy = [0, 1, 0, -1], [-1, 0, 1, 0]
+x, y = 1, 1
+w, h = map(int, input().split())
 K = int(input())
-arr = [[False for _ in range(C + 1)] for _ in range(R + 1)]  # 다음점까지 고려해서 1개씩 더 큰 배열 만들기
-if K > C * R:
+
+
+cnt = 1
+dir = 0
+toggleX = 1
+toggleY = 1
+while cnt < K and x > 0 and y > 0:
+    if dir == 0:
+        cnt += h - toggleY
+
+        y += h - toggleY
+        h -= toggleY
+        if cnt == y:
+            h += 1
+        if cnt >= K:
+            # print(cnt, K)
+            y -= cnt - K
+
+            break
+    elif dir == 1:
+        cnt += w - toggleX
+        x += w - toggleX
+        w -= toggleX
+        if cnt >= K:
+            # print(cnt, K)
+            x -= cnt - K
+    elif dir == 2:
+        cnt += h - toggleY
+        y -= h - toggleY
+        h -= toggleY
+        if cnt >= K:
+            # print(cnt, K)
+            y += cnt - K
+    elif dir == 3:
+        cnt += w - toggleX
+        x -= w - toggleX
+        # x += 1
+        w -= toggleX
+        if cnt >= K:
+            # print(cnt, K)
+            x += cnt - K
+    # print(cnt, dir, x, y)
+
+    dir = (dir + 1) % 4
+if x < 1 or y < 1:
     print(0)
 else:
-    print(*func(0, 0))
+    print(x, y)
