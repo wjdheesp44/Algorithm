@@ -8,9 +8,7 @@ score = []
 
 for studentNum in list(map(int, input().split())):
     if studentNum in picture:   # 사진틀에 있으면
-        for j in range(len(picture)):
-            if studentNum == picture[j]:
-                score[j] += 1
+        score[picture.index(studentNum)] += 1
     else:   # 사진틀에 없으면
         if len(picture) >= N:    # 사진이 꽉차면
             for j in range(N):
