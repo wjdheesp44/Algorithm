@@ -1,35 +1,45 @@
-from collections import deque
 import sys
-f = sys.stdin.readline
+from collections import deque
+input = sys.stdin.readline
 
-n, m, k, x = map(int, f().split())
-graph = [[] for _ in range(n+1)]
-distance = [0] * (n+1)
-visited = [False] * (n+1)
+# 도시의 개수 N, 도로의 개수 M, 거리 정보 K, 출발 도시의 번호 X
 
-for _ in range(m):
-    a, b = map(int, f().split())
+N, M, K, X = map(int, input().split())
+result = []
+
+graph = [[] for _ in range(N+1)]
+# print(graph)
+for i in range(M):
+    a, b = map(int, input().split())
     graph[a].append(b)
 
-def bfs(start):
-    answer = []
-    q = deque([start])
-    visited[start] = True
-    distance[start] = 0
-    while q:
-        now = q.popleft()
-        for i in graph[now]:
-            if not visited[i]:
-                visited[i] = True
-                q.append(i)
-                distance[i] = distance[now] + 1
-                if distance[i] == k:
-                    answer.append(i)
-    if len(answer) == 0:
-        print(-1)
-    else:
-        answer.sort()
-        for i in answer:
-            print(i, end='\n')
+# print(graph)
+visited = [0] * (N+1)
+# print(visited)
 
-bfs(x)
+def bfs(start_v, depth):
+    q = deque()
+    q.append((start_v, depth))
+    visited[start_v] = 1
+    
+    while q:
+        x, dep = q.popleft()
+        if dep == K:
+            result.append(x)
+            continue
+        elif len(graph[x]) == 0:
+            continue
+
+        for i in range(len(graph[x])):
+            nx = graph[x][i]
+            if not visited[nx]:
+                visited[nx] = 1
+                q.append((nx, dep+1))
+
+bfs(X, 0)
+if not result:
+    print(-1)
+else:
+    result.sort()
+    for i in range(len(result)):
+        print(result[i])
