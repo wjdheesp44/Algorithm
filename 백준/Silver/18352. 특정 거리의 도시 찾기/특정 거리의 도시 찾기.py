@@ -24,8 +24,6 @@ def bfs(start_v, depth):
         if dep == K:
             result.append(x)
             continue
-        elif len(graph[x]) == 0:
-            continue
 
         for i in range(len(graph[x])):
             nx = graph[x][i]
