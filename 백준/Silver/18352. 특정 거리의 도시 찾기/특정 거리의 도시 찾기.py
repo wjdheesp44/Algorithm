@@ -3,27 +3,24 @@ from collections import deque
 input = sys.stdin.readline
 
 # 도시의 개수 N, 도로의 개수 M, 거리 정보 K, 출발 도시의 번호 X
-
 N, M, K, X = map(int, input().split())
 result = []
 
 graph = [[] for _ in range(N+1)]
-# print(graph)
+visited = [0] * (N+1)
 for i in range(M):
     a, b = map(int, input().split())
     graph[a].append(b)
 
-# print(graph)
-visited = [0] * (N+1)
-# print(visited)
 
 def bfs(start_v, depth):
     q = deque()
     q.append((start_v, depth))
     visited[start_v] = 1
-    
+
     while q:
         x, dep = q.popleft()
+
         if dep == K:
             result.append(x)
             continue
@@ -33,6 +30,7 @@ def bfs(start_v, depth):
         for i in range(len(graph[x])):
             nx = graph[x][i]
             if not visited[nx]:
+
                 visited[nx] = 1
                 q.append((nx, dep+1))
 
