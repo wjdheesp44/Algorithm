@@ -1,47 +1,36 @@
+import sys
 from collections import deque
 
-while(True):
-    col, row = map(int, input().split())
+input = sys.stdin.readline
 
-    if col == 0 and row == 0:
+dx, dy = [-1, -1, 0, 1, 1, 1, 0, -1], [0, 1, 1, 1, 0, -1, -1, -1]
+
+while True:
+    w, h = map(int, input().split())
+    if w == 0 and h == 0:
         break
 
-    grid = []
-
-    for i in range(row):
-        grid.append(list(map(int, input().split())))
-
-
-    Islands_count = 0
-    row = len(grid)
-    col = len(grid[0])
-    visited = [[False] * col for _ in range(row)]
-
+    graph = [list(map(int, input().split())) for _ in range(h)]
+    visited = [[False] * w for _ in range(h)]
+    island_cnt = 0
 
     def bfs(x, y):
-        dx = [-1, -1, 0, 1, 1, 1, 0, -1]
-        dy = [0, 1, 1, 1, 0, -1, -1, -1]
-        visited[x][y] = True
         q = deque()
         q.append((x, y))
+        visited[x][y] = True
 
         while q:
-            cur_x, cur_y = q.popleft()
-            for i in range(8):
-                next_x = cur_x + dx[i]
-                next_y = cur_y + dy[i]
-                if next_x >= 0 and next_x < row and next_y >= 0 and next_y < col:
-                    if grid[next_x][next_y] != 0 and not visited[next_x][next_y]:
-                        visited[next_x][next_y] = True
-                        q.append((next_x, next_y))
+            x, y = q.popleft()
+            for k in range(8):
+                nx, ny = x + dx[k], y + dy[k]
+                if 0 <= nx < h and 0 <= ny < w and not visited[nx][ny] and graph[nx][ny]:
+                    visited[nx][ny] = True
+                    q.append((nx, ny))
 
-    for i in range(row):
-        for j in range(col):
-            if grid[i][j] == 1 and not visited[i][j]:
+    for i in range(h):
+        for j in range(w):
+            if not visited[i][j] and graph[i][j]:
                 bfs(i, j)
-                Islands_count += 1
+                island_cnt += 1
 
-    print(Islands_count)
-
-
-
+    print(island_cnt)
