@@ -1,18 +1,9 @@
 import sys
+from itertools import permutations
 input = sys.stdin.readline
 
 N = int(input())
-result = []
-
-for i in range(1, 10):
-    for j in range(1, 10):
-        if i == j:
-            continue
-        for k in range(1, 10):
-            if i == k or j == k:
-                continue
-            else:
-                result.append((i, j, k))
+result = list(permutations(range(1, 10), 3))
 
 for cnt in range(N):
     num, strike, ball = map(int, input().split())
