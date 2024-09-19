@@ -1,48 +1,35 @@
 import sys
+input = sys.stdin.readline
+
+board = [list(map(int, input().split())) for _ in range(19)]
+
+dx, dy = [-1, -1, 0, 1, 1, 1, 0, -1], [0, 1, 1, 1, 0, -1, -1, -1]
+
+def dfs(x, y, dir, cnt, arr):
+    nx, ny = x + dx[dir], y + dy[dir]
+    if 0 <= nx < 19 and 0 <= ny < 19 and board[x][y] == board[nx][ny]:
+        arr.append((nx, ny))
+        # print("dfs", nx, ny, cnt)
+        return dfs(nx, ny, dir, cnt+1, arr)
+    else:
+        return cnt, arr
 
 
-def bfs(x, y):
-    target = graph[x][y] # 바둑알의 색
-
-    # 우/아래/대각선 우 아래/ 대각선 우 위 => 4가지 방향을 탐색
-    for k in range(4):
-        cnt = 1 # 바둑알 수
-        nx = x + dx[k]
-        ny = y + dy[k]
-
-        # 반복문을 통해 오목이 되는지 확인
-        while 0 <= nx < 19 and 0 <= ny < 19 and graph[nx][ny] == target:
-            cnt += 1
-
-            # 오목이라면
-            if cnt == 5:
-                # 육목 체크
-                if 0 <= x - dx[k] < 19 and 0 <= y - dy[k] < 19 and graph[x - dx[k]][y - dy[k]] == target:
-                    break
-                if 0 <= nx + dx[k] < 19 and 0 <= ny + dy[k] < 19 and graph[nx + dx[k]][ny + dy[k]] == target:
-                    break
-
-                # 육목이 아니면 성공한 것으로
-                # 바둑알의 색과 위치를 출력 후 종료
-                print(target)
-                print(x + 1, y + 1)
-                exit(0)
-
-            # 이전에 이동했던 방향으로 다시 이동
-            nx += dx[k]
-            ny += dy[k]
-
-
-graph = [list(map(int, sys.stdin.readline().split())) for _ in range(19)]
-
-# → ↓ ↘ ↗
-dx = [0, 1, 1, -1]
-dy = [1, 0, 1, 1]
-
-# 반복문을 통해 바둑알이 있는 위치를 탐색
 for i in range(19):
     for j in range(19):
-        if graph[i][j] != 0:
-            bfs(i, j)
+        if board[i][j] != 0:
+            for k in range(8):
+                line_cnt, result = dfs(i, j, k, 1, [(i, j)])
+                # print(line_cnt, result)
+                if line_cnt == 5:
+                    dir = (k + 4) % 8
+                    nx, ny = i + dx[dir], j + dy[dir]
+                    if 0 <= nx < 19 and 0 <= ny < 19 and board[i][j] == board[nx][ny]:
+                        continue
 
+                    print(board[i][j])
+                    result.sort(key=lambda x: (x[1], x[0]))
+                    # print(result)
+                    print(result[0][0]+1, result[0][1]+1)
+                    exit(0)
 print(0)
