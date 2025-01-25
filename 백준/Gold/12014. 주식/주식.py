@@ -2,29 +2,39 @@ import sys
 
 input = sys.stdin.readline
 
+def binary_search(lis, target):
+    left, right = 0, len(lis)
+    while left < right:
+        mid = (left + right) // 2
+        if lis[mid] < target:
+            left = mid + 1
+        else:
+            right = mid
+    return left
+
 T = int(input())
 
-for t in range(1, T+1):
+for t in range(1, T + 1):
 
     N, K = map(int, input().split())
     chart = list(map(int, input().split()))
 
-    # chart = []
-    # for idx, i in enumerate(temp):
-    #     chart.append((idx, i))
+    # LIS를 저장할 리스트
+    lis = []
 
-    # chart.sort(key=lambda x:(x[1], x[0]))
-    # print(chart)
-    length = [1] * N
-    for k in range(N):
-        for i in range(k):
-            if chart[i] < chart[k]:
-                length[k] = max(length[k], length[i]+1)
+    for num in chart:
+        # 직접 구현한 이분 탐색으로 위치를 찾음
+        pos = binary_search(lis, num)
+        if pos < len(lis):
+            # lis[pos]가 존재하면 대체
+            lis[pos] = num
+        else:
+            # lis[pos]가 없으면 새 값을 추가
+            lis.append(num)
 
-    # print(length)
+    # 결과 출력
     print(f'Case #{t}')
-    if max(length) >= K:
+    if len(lis) >= K:
         print(1)
     else:
         print(0)
-
