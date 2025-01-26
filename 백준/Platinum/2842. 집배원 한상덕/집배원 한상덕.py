@@ -26,7 +26,7 @@ all_height = sorted(set(all_height))
 left, right = 0, 0
 result = 1000000
 
-while left < len(all_height):
+while left <= right:
     visited = [[0] * N for _ in range(N)]
     q = deque()
     if all_height[left] <= heights[sx][sy] <= all_height[right]:
