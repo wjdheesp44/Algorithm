@@ -1,274 +1,303 @@
 import java.io.*;
-import java.util.StringTokenizer;
-
+import java.util.*;
 public class Main {
-    static int[] cube = new int[25];	//큐브에 대한 정보 저장 배열
+    static int[] cube;
     public static void main(String[] args) throws IOException {
-        //입력값 처리하는 BufferedReader
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        //결과값 출력하는 BufferedWriter
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st = new StringTokenizer(br.readLine()," ");
-        //큐브 정보 저장
-        for(int i=1;i<25;i++)
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        cube = new int[25];
+        for(int i = 1; i <= 24; i++){
             cube[i] = Integer.parseInt(st.nextToken());
-        bw.write(cubeMove() + "");		//큐브 시뮬레이션 시작 및 결과 BufferedWriter 저장
-        bw.flush();		//결과 출력
-        bw.close();
-        br.close();
+        }
+        
+        System.out.println(moveCube());
     }
-    //큐브 모든 면 90도로 양방향 회전해보는 시뮬레이션 진행
-    static int cubeMove(){
-        //(13, 14, 15, 16)면 회전
-        leftToUp();		
-        if(cubeCheck())
-            return 1;
-        leftToDown();
 
-        leftToDown();
-        if(cubeCheck())
-            return 1;
-        leftToUp();
-        
-        //(17, 18, 19, 20)면 회전
-        rightToUp();
-        if(cubeCheck())
-            return 1;
-        rightToDown();
-        
-        rightToDown();
-        if(cubeCheck())
-            return 1;
-        rightToUp();
+    private static int moveCube() {
+        leftUp();
+        if (check()) return 1;
+        leftDown();
+//        System.out.println(Arrays.toString(cube));
 
-        //(1, 2, 3, 4)면 회전
-        upToRight();
-        if(cubeCheck())
-            return 1;
-        upToLeft();
+        leftDown();
+        if (check()) return 1;
+        leftUp();
+//        System.out.println(Arrays.toString(cube));
 
-        upToLeft();
-        if(cubeCheck())
-            return 1;
-        upToRight();
+        rightUp();
+        if (check()) return 1;
+        rightDown();
+//        System.out.println(Arrays.toString(cube));
 
-        //(9, 10, 11, 12)면 회전
-        downToRight();
-        if(cubeCheck())
-            return 1;
-        downToLeft();
+        rightDown();
+        if (check()) return 1;
+        rightUp();
+//        System.out.println(Arrays.toString(cube));
 
-        downToLeft();
-        if(cubeCheck())
-            return 1;
-        downToRight();
+        upLeft();
+        if (check()) return 1;
+        upRight();
+//        System.out.println(Arrays.toString(cube));
 
-        //(5, 6, 7, 8)면 회전
-        bottomToLeft();
-        if(cubeCheck())
-            return 1;
-        bottomToRight();
+        upRight();
+        if (check()) return 1;
+        upLeft();
+//        System.out.println(Arrays.toString(cube));
 
-        bottomToRight();
-        if(cubeCheck())
-            return 1;
-        bottomToLeft();
+        downLeft();
+        if (check()) return 1;
+        downRight();
+//        System.out.println(Arrays.toString(cube));
 
-        //(21, 22, 23, 24)면 회전
-        topToLeft();
-        if(cubeCheck())
-            return 1;
-        topToRight();
+        downRight();
+        if (check()) return 1;
+        downLeft();
+//        System.out.println(Arrays.toString(cube));
 
-        topToRight();
-        if(cubeCheck())
-            return 1;
-        topToLeft();
+        nextLeftUp();
+        if (check()) return 1;
+        nextLeftDown();
+
+        nextLeftDown();
+//        System.out.println(Arrays.toString(cube));
+        if (check()) return 1;
+        nextLeftUp();
+
+//        System.out.println(Arrays.toString(cube));
+
+        nextRightUp();
+        if (check()) return 1;
+        nextRightDown();
+
+        nextRightDown();
+        if (check()) return 1;
+        nextRightUp();
 
         return 0;
     }
-    //(13, 14, 15, 16)면 반시계 회전
-    static void leftToUp(){
-        int t1 = cube[1];
-        int t2 = cube[3];
-        cube[3] = cube[22];
-        cube[1] = cube[24];
-        cube[24] = cube[9];
-        cube[22] = cube[11];
-        cube[9] = cube[5];
-        cube[11] = cube[7];
-        cube[5] = t1;
-        cube[7] = t2;
-    }
-    //(13, 14, 15, 16)면 시계 회전
-    static void leftToDown(){
-        int t1 = cube[1];
-        int t2 = cube[3];
+
+    private static void leftUp() {
+        int c1 = cube[1];
+        int c2 = cube[3];
         cube[1] = cube[5];
         cube[3] = cube[7];
         cube[5] = cube[9];
         cube[7] = cube[11];
         cube[9] = cube[24];
         cube[11] = cube[22];
-        cube[22] = t2;
-        cube[24] = t1;
+        cube[24] = c1;
+        cube[22] = c2;
+        int c = cube[13];
+        cube[13] = cube[14];
+        cube[14] = cube[16];
+        cube[16] = cube[15];
+        cube[15] = c;
     }
-    //(17, 18, 19, 20)면  시계 회전
-    static void rightToUp(){
-        int t1 = cube[2];
-        int t2 = cube[4];
-        cube[4] = cube[21];
-        cube[2] = cube[23];
-        cube[23] = cube[10];
-        cube[21] = cube[12];
-        cube[10] = cube[6];
-        cube[12] = cube[8];
-        cube[6] = t1;
-        cube[8] = t2;
+
+    private static void leftDown() {
+        int c1 = cube[5];
+        int c2 = cube[7];
+        cube[5] = cube[1];
+        cube[7] = cube[3];
+        cube[1] = cube[24];
+        cube[3] = cube[22];
+        cube[24] = cube[9];
+        cube[22] = cube[11];
+        cube[9] = c1;
+        cube[11] = c2;
+        int c = cube[13];
+        cube[13] = cube[15];
+        cube[15] = cube[16];
+        cube[16] = cube[14];
+        cube[14] = c;
     }
-    //(17, 18, 19, 20)면 반시계 회전
-    static void rightToDown(){
-        int t1 = cube[2];
-        int t2 = cube[4];
+
+    private static void rightUp() {
+        int c1 = cube[2];
+        int c2 = cube[4];
         cube[2] = cube[6];
         cube[4] = cube[8];
         cube[6] = cube[10];
         cube[8] = cube[12];
         cube[10] = cube[23];
         cube[12] = cube[21];
-        cube[21] = t2;
-        cube[23] = t1;
+        cube[23] = c1;
+        cube[21] = c2;
+        int c = cube[17];
+        cube[17] = cube[19];
+        cube[19] = cube[20];
+        cube[20] = cube[18];
+        cube[18] = c;
     }
-    //(1, 2, 3, 4)면 반시계 회전
-    static void upToRight(){
-        int t1 = cube[13];
-        int t2 = cube[14];
-        cube[13] = cube[22];
-        cube[14] = cube[21];
-        cube[21] = cube[18];
-        cube[22] = cube[17];
-        cube[17] = cube[5];
-        cube[18] = cube[6];
-        cube[5] = t1;
-        cube[6] = t2;
+
+    private static void rightDown() {
+        int c1 = cube[6];
+        int c2 = cube[8];
+        cube[6] = cube[2];
+        cube[8] = cube[4];
+        cube[2] = cube[23];
+        cube[4] = cube[21];
+        cube[23] = cube[10];
+        cube[21] = cube[12];
+        cube[10] = c1;
+        cube[12] = c2;
+        int c = cube[17];
+        cube[17] = cube[18];
+        cube[18] = cube[20];
+        cube[20] = cube[19];
+        cube[19] = c;
     }
-    //(1, 2, 3, 4)면 시계 회전
-    static void upToLeft(){
-        int t1 = cube[13];
-        int t2 = cube[14];
-        cube[13] = cube[5];
-        cube[14] = cube[6];
+
+    private static void upLeft() {
+        int c1 = cube[5];
+        int c2 = cube[6];
         cube[5] = cube[17];
         cube[6] = cube[18];
-        cube[17] = cube[22];
-        cube[18] = cube[21];
-        cube[21] = t2;
-        cube[22] = t1;
+        cube[17] = cube[21];
+        cube[18] = cube[22];
+        cube[21] = cube[13];
+        cube[22] = cube[14];
+        cube[13] = c1;
+        cube[14] = c2;
+        int c = cube[1];
+        cube[1] = cube[3];
+        cube[3] = cube[4];
+        cube[4] = cube[2];
+        cube[2] = c;
     }
-    //(9, 10, 11, 12)면 시계 회전
-    static void downToRight(){
-        int t1 = cube[15];
-        int t2 = cube[16];
-        cube[15] = cube[24];
-        cube[16] = cube[23];
-        cube[23] = cube[20];
-        cube[24] = cube[19];
-        cube[19] = cube[7];
-        cube[20] = cube[8];
-        cube[7] = t1;
-        cube[8] = t2;
+
+    private static void upRight() {
+        int c1 = cube[5];
+        int c2 = cube[6];
+        cube[5] = cube[13];
+        cube[6] = cube[14];
+        cube[13] = cube[21];
+        cube[14] = cube[22];
+        cube[21] = cube[17];
+        cube[22] = cube[18];
+        cube[17] = c1;
+        cube[18] = c2;
+        int c = cube[1];
+        cube[1] = cube[2];
+        cube[2] = cube[4];
+        cube[4] = cube[3];
+        cube[3] = c;
     }
-    //(9, 10, 11, 12)면 반시계 회전
-    static void downToLeft(){
-        int t1 = cube[15];
-        int t2 = cube[16];
-        cube[15] = cube[7];
-        cube[16] = cube[8];
+
+    private static void downLeft() {
+        int c1 = cube[7];
+        int c2 = cube[8];
         cube[7] = cube[19];
         cube[8] = cube[20];
-        cube[19] = cube[24];
-        cube[20] = cube[23];
-        cube[23] = t2;
-        cube[24] = t1;
+        cube[19] = cube[23];
+        cube[20] = cube[24];
+        cube[23] = cube[15];
+        cube[24] = cube[16];
+        cube[15] = c1;
+        cube[16] = c2;
+        int c = cube[9];
+        cube[9] = cube[10];
+        cube[10] = cube[12];
+        cube[12] = cube[11];
+        cube[11] = c;
     }
-    //(5, 6, 7, 8)면 반시계 회전
-    static void bottomToLeft(){
-        int t1 = cube[5];
-        int t2 = cube[4];
-        cube[5] = cube[6];
-        cube[6] = cube[8];
-        cube[8] = cube[7];
-        cube[7] = t1;
-        t1 = cube[3];
+
+    private static void downRight() {
+        int c1 = cube[7];
+        int c2 = cube[8];
+        cube[7] = cube[15];
+        cube[8] = cube[16];
+        cube[15] = cube[23];
+        cube[16] = cube[24];
+        cube[23] = cube[19];
+        cube[24] = cube[20];
+        cube[19] = c1;
+        cube[20] = c2;
+        int c = cube[9];
+        cube[9] = cube[11];
+        cube[11] = cube[12];
+        cube[12] = cube[10];
+        cube[10] = c;
+    }
+
+    private static void nextLeftUp() {
+        int c1 = cube[3];
+        int c2 = cube[4];
         cube[3] = cube[17];
         cube[4] = cube[19];
         cube[17] = cube[10];
         cube[19] = cube[9];
-        cube[9] = cube[14];
         cube[10] = cube[16];
-        cube[14] = t2;
-        cube[16] = t1;
+        cube[9] = cube[14];
+        cube[16] = c1;
+        cube[14] = c2;
+        int c = cube[5];
+        cube[5] = cube[6];
+        cube[6] = cube[8];
+        cube[8] = cube[7];
+        cube[7] = c;
     }
-    //(5, 6, 7, 8)면 시계 회전
-    static void bottomToRight(){
-        int t1 = cube[5];
-        int t2 = cube[4];
+
+    private static void nextLeftDown() {
+        int c1 = cube[3];
+        int c2 = cube[4];
+        cube[3] = cube[16];
+        cube[4] = cube[14];
+        cube[16] = cube[10];
+        cube[14] = cube[9];
+        cube[10] = cube[17];
+        cube[9] = cube[19];
+        cube[17] = c1;
+        cube[19] = c2;
+        int c = cube[5];
         cube[5] = cube[7];
         cube[7] = cube[8];
         cube[8] = cube[6];
-        cube[6] = t1;
-        t1 = cube[3];
-        cube[3] = cube[16];
-        cube[4] = cube[14];
-        cube[14] = cube[9];
-        cube[16] = cube[10];
-        cube[9] = cube[19];
-        cube[10] = cube[17];
-        cube[17] = t1;
-        cube[19] = t2;
+        cube[6] = c;
     }
-    //(21, 22, 23, 24)면 반시계 회전
-    static void topToLeft(){
-        int t1 = cube[21];
-        int t2 = cube[2];
-        cube[21] = cube[22];
-        cube[22] = cube[24];
-        cube[24] = cube[23];
-        cube[23] = t1;
-        t1 = cube[1];
+
+    private static void nextRightUp() {
+        int c1 = cube[1];
+        int c2 = cube[2];
         cube[1] = cube[18];
         cube[2] = cube[20];
         cube[18] = cube[12];
         cube[20] = cube[11];
-        cube[11] = cube[13];
         cube[12] = cube[15];
-        cube[13] = t2;
-        cube[15] = t1;
-    }
-    //(21, 22, 23, 24)면 시계 회전
-    static void topToRight(){
-        int t1 = cube[21];
-        int t2 = cube[2];
+        cube[11] = cube[13];
+        cube[15] = c1;
+        cube[13] = c2;
+        int c = cube[21];
         cube[21] = cube[23];
         cube[23] = cube[24];
         cube[24] = cube[22];
-        cube[22] = t1;
-        t1 = cube[1];
-        cube[1] = cube[15];
-        cube[2] = cube[13];
-        cube[13] = cube[11];
-        cube[15] = cube[12];
-        cube[11] = cube[20];
-        cube[12] = cube[18];
-        cube[18] = t1;
-        cube[20] = t2;
+        cube[22] = c;
     }
 
-    //큐브 풀었는지 확인하는 함수
-    static boolean cubeCheck(){
-        for(int i=1;i<25;i+=4){
-            if(cube[i] != cube[i+1] || cube[i+1]!=cube[i+2] || cube[i+2] != cube[i+3])
+    private static void nextRightDown() {
+        int c1 = cube[1];
+        int c2 = cube[2];
+        cube[1] = cube[15];
+        cube[2] = cube[13];
+        cube[15] = cube[12];
+        cube[13] = cube[11];
+        cube[12] = cube[18];
+        cube[11] = cube[20];
+        cube[18] = c1;
+        cube[20] = c2;
+        int c = cube[21];
+        cube[21] = cube[22];
+        cube[22] = cube[24];
+        cube[24] = cube[23];
+        cube[23] = c;
+    }
+
+    private static boolean check() {
+        for (int i = 1; i <= 21; i += 4) {
+            if (cube[i] != cube[i+1] || cube[i+1] != cube[i+2]
+            || cube[i+2] != cube[i+3]) {
                 return false;
+            }
         }
         return true;
     }
